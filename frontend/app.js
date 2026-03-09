@@ -29,7 +29,7 @@ const changedCellsPreviewEl = document.getElementById("changedCellsPreview");
 const beforePreviewTableEl = document.getElementById("beforePreviewTable");
 const afterPreviewTableEl = document.getElementById("afterPreviewTable");
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://data-cleaner-app-cben.onrender.com";
 
 function formatList(items) {
   if (!items || items.length === 0) return "None";
