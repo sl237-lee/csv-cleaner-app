@@ -1,0 +1,16 @@
+id , name , email , signup_date , city , purchase_amount
+1 , Andrew Lee , andrew@example.com , 2026-01-03 , New York , 120.50
+2 , Sarah Kim , sarah@example.com , 2026/01/04 , Boston , 89.90
+3 , Mike Chen , mike@example.com , 01-05-2026 , San Francisco , 45
+4 ,  John Smith , john@example.com , 2026-01-06 , Chicago , 67.00
+5 , Emily Davis , emily@example.com , 2026-01-07 , Seattle , 
+6 , Andrew Lee , andrew@example.com , 2026-01-03 , New York , 120.50
+7 , Alex Park , alex@example.com , 2026-01-09 , Los Angeles , 98.30
+8 ,  , noname@example.com , 2026-01-10 , Miami , 55.00
+9 , Daniel Wu , daniel@example.com , , San Diego , 73.20
+10 , Chris Brown , chris@example.com , 2026-01-11 , Dallas , 41.00
+11 , Sarah Kim , sarah@example.com , 2026/01/04 , Boston , 89.90
+12 , Jessica Lee , jessica@example.com , 2026-01-12 , New York , 102.00
+13 , David Kim , david@example.com , 2026-01-13 , Boston , 65.20
+14 , Anna Park , anna@example.com , 2026-01-14 , Chicago , 77.80
+15 , Michael Scott , michael@example.com , 2026-01-15 , Scranton , 200

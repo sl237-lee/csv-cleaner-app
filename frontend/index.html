@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Cleaner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="app-card">
+      <div class="hero">
+        <div class="hero-badge">Data Cleaning Tool</div>
+        <h1>Data Cleaner</h1>
+        <p class="subtitle">
+          Upload a messy CSV or Excel file and get a cleaner, standardized version with
+          duplicate handling, date normalization, typo correction, and flexible missing-value rules.
+        </p>
+      </div>
+
+      <section class="upload-panel">
+        <div class="upload-grid">
+          <div class="form-group file-upload-group">
+            <label for="fileInput">Choose File</label>
+
+            <div id="dropZone" class="drop-zone" tabindex="0" aria-label="File upload drop zone">
+              <div class="drop-zone-inner">
+                <div class="drop-zone-icon" aria-hidden="true">⬆</div>
+                <div class="drop-zone-title">Drag and drop your file here</div>
+                <div class="drop-zone-subtitle">or click below to choose a file manually</div>
+
+                <input type="file" id="fileInput" accept=".csv,.xlsx" class="file-input-hidden" />
+
+                <button type="button" id="browseBtn" class="secondary-btn">Browse Files</button>
+
+                <div id="selectedFileName" class="selected-file-name">
+                  No file selected
+                </div>
+              </div>
+            </div>
+
+            <p class="field-help">
+              Supported for now: <strong>.csv</strong> and <strong>.xlsx</strong> files.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="missingMode">Missing Value Handling</label>
+            <select id="missingMode">
+              <option value="strict">Strict clean — remove rows with missing values</option>
+              <option value="safe">Safe clean — keep rows with missing values</option>
+              <option value="fill">Fill mode — fill missing values automatically</option>
+            </select>
+            <p class="field-help">
+              Choose how you want missing values handled in the cleaned output.
+            </p>
+          </div>
+        </div>
+
+        <div class="duplicate-columns-panel">
+          <label for="duplicateColumns">Duplicate Check Columns</label>
+          <input
+            type="text"
+            id="duplicateColumns"
+            placeholder="Example: name,email,signup_date,city,purchase_amount"
+          />
+          <p class="field-help">
+            Optional. Enter comma-separated column names to define duplicates for this file.
+            Leave blank to use the app’s default logic.
+          </p>
+        </div>
+
+        <div class="action-row">
+          <button id="uploadBtn" class="primary-btn">Upload and Clean</button>
+          <div id="status" class="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="resultsCard" class="results-card hidden">
+        <div class="section-header">
+          <div>
+            <h2>Cleaning Summary</h2>
+            <p class="section-subtitle">
+              A quick overview of what changed in your file.
+            </p>
+          </div>
+
+          <div class="download-actions">
+            <a id="downloadCsvLink" class="download-btn hidden" href="#">Download CSV</a>
+            <a id="downloadXlsxLink" class="download-btn secondary hidden" href="#">Download XLSX</a>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="metric-label">Original Rows</div>
+            <div class="metric-value" id="originalRows">-</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Cleaned Rows</div>
+            <div class="metric-value" id="cleanedRows">-</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Duplicates Removed</div>
+            <div class="metric-value" id="duplicatesRemoved">-</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Rows Removed for Missing Values</div>
+            <div class="metric-value" id="rowsRemovedMissing">-</div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="summary-card">
+            <h3>Cleaning Mode</h3>
+            <p id="missingModeResult">-</p>
+          </div>
+
+          <div class="summary-card">
+            <h3>Inferred Domain Profile</h3>
+            <p id="domainProfile">-</p>
+          </div>
+
+          <div class="summary-card">
+            <h3>Normalized Date Columns</h3>
+            <p id="normalizedDateColumns">-</p>
+          </div>
+
+          <div class="summary-card">
+            <h3>Normalized Numeric Columns</h3>
+            <p id="normalizedNumericColumns">-</p>
+          </div>
+
+          <div class="summary-card">
+            <h3>Duplicate Check Columns</h3>
+            <p id="duplicateCheckColumns">-</p>
+          </div>
+
+          <div class="summary-card">
+            <h3>Final Columns</h3>
+            <p id="finalColumns" class="columns-list">-</p>
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <h3>Applied Business Rules</h3>
+          <div id="appliedRules" class="chip-list"></div>
+        </div>
+
+        <div class="summary-section">
+          <h3>Missing Values Before Cleaning</h3>
+          <div id="missingBefore" class="kv-grid"></div>
+        </div>
+
+        <div class="summary-section">
+          <h3>Missing Values After Cleaning</h3>
+          <div id="missingAfter" class="kv-grid"></div>
+        </div>
+
+        <div class="summary-section">
+          <h3>Changed Cells Summary</h3>
+          <div class="info-grid compact">
+            <div class="summary-card">
+              <h3>Total Changed Cells</h3>
+              <p id="changedCellsTotal">-</p>
+            </div>
+
+            <div class="summary-card">
+              <h3>Changed Cells by Column</h3>
+              <div id="changedCellsByColumn" class="kv-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <h3>Changed Cells Preview</h3>
+          <div id="changedCellsPreview" class="table-wrap"></div>
+        </div>
+
+        <div class="preview-grid stacked-previews">
+          <section class="preview-card">
+            <div class="preview-head">
+              <h3>Before Cleaning Preview</h3>
+              <p>First 5 parsed rows from the uploaded file.</p>
+            </div>
+            <div id="beforePreviewTable" class="table-wrap preview-table-wrap"></div>
+          </section>
+
+          <section class="preview-card">
+            <div class="preview-head">
+              <h3>After Cleaning Preview</h3>
+              <p>First 5 rows after cleaning and transformation.</p>
+            </div>
+            <div id="afterPreviewTable" class="table-wrap preview-table-wrap"></div>
+          </section>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
