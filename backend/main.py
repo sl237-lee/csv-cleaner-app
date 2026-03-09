@@ -8,10 +8,19 @@ import json
 
 app = FastAPI()
 
+# CORS
+# For a public frontend on Vercel, this is the safest simple setup for now.
+# Since this app does not use cookies/session auth, allow_credentials should be False.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "https://csv-cleaner-app-smoky.vercel.app",
+        "https://*.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -55,7 +64,6 @@ async def upload_file(
     if duplicate_columns.strip():
         try:
             parsed_duplicate_columns = json.loads(duplicate_columns)
-
             if not isinstance(parsed_duplicate_columns, list):
                 raise ValueError
         except Exception:
